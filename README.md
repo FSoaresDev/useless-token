@@ -1,3 +1,4 @@
+
 # UselessCrap Token (CRAP)
 
 ERC20 Test token on Ethereum blockchain leverages chainlink (LINK) price oracle and the new chainlink VRF to get random verified numbers.
@@ -8,3 +9,33 @@ When rebalance mechanism activates:
 * When the random number arrives get the current price of BTC/ETH pair using chainlink price oracle
 * If new price is greater than the price at the previous rebalance: Mint random % of tokens for each account that have locked tokens. 
 * If new price is less than the price at the previous rebalance: Burn random % of tokens on each account that have locked tokens.
+
+Kovan testnet contract => 0x44Be6b05F8011Dbb9CDe17acE93133939A82a9Fa
+# Usage
+
+1. Copy the UselessCrapToken.sol to [Remix](https://remix.ethereum.org/) on a new Project.
+2. Change the compiler version to the correct one (0.6.xx)
+3. Install [Metamask](https://metamask.io/) if you dont have it.
+4. Create/Use an account on the Metamask and switch to Kovan testnet (some chainlink addresses are hardcoded so this only works on this testnet)
+5. Get some ETH from the [Kovan ETH faucet](https://faucet.kovan.network/)
+6. Get some LINK from the [Kovan LINK faucet](https://kovan.chain.link/)
+7. Add Custom Token to Metamask: 0xa36085F69e2889c224210F603D836748e7dC0088 (This is the LINK contract on Kovan testnet)
+8. Go to Remix and deploy the UselessCrapExecutor using Inject Web3 so it will connect with Metamask
+9. Now we have a deployed contract, and will appear on a Deployed Contracts tab on Remix.
+9.1 This is a ERC20 contract so it has the standard functionality of a ERC20 Token with some added functions
+9.2 When you deployed the contract it minted some coins for you
+10. Send some of you LINK tokens to the contract using Metamask
+10.1 To get random numbers we need to feed LINK to the contract so it has a way to interact with chainlink VRF
+11. Lock some tokens on the contract using the lockTokens function
+12. See you locked tokens using getLockedBalanceOf and see you normal balance with balanceOf
+
+For this to work the rebalance function needs to be called by some service each hour, on a mainnet environment probably a service like [Ethereum Alarm Clock](https://www.ethereum-alarm-clock.com/)
+
+For test purposes, we call this manually.
+
+rebalanceTrigger function is the one used to trigger the rebalance, we need to provide a seed to generate some entropy. This function can take some time as the chainlink service needs to compute and return the random number!
+
+When a rebalance is concluded, all accounts that have locked tokens have some minted or burned tokens depending on the price change of the BTC/ETH pair.
+The quantity of tokens minted/burned is defined by the random number that is provided by the Chainlink VRF with the following formula: (quantityLockedTokens * random%) / 100
+
+To widthdaw locked tokens just use the withdrawLockedTokens function.

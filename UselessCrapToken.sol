@@ -25,13 +25,14 @@ contract UselessCrap is ERC20 {
 }
 
 contract UselessCrapExecutor is VRFConsumerBase, UselessCrap  {
+    address internal adminAddress;
     bytes32 internal keyHash;
     uint256 internal fee;
     uint256 public randomPercentage;
     
     AggregatorV3Interface internal priceFeed;
     
-    int public basePrice;
+    int basePrice;
     address[] public _lockedAddresses;
     struct balancesData {
         uint8 addressIndex;
@@ -63,7 +64,8 @@ contract UselessCrapExecutor is VRFConsumerBase, UselessCrap  {
         keyHash = 0x6c3699283bda56ad74f6b855546325b68d482e983852a7a82979cc4807b641f4;
         fee = 0.1 * 10 ** 18; // 0.1 LINK
         priceFeed = AggregatorV3Interface(0xF7904a295A029a3aBDFFB6F12755974a958C7C25);
-        basePrice = 27549119243458275000;
+        basePrice = getLatestPrice();
+        adminAddress = _msgSender();
     }
     
     /**
@@ -103,6 +105,7 @@ contract UselessCrapExecutor is VRFConsumerBase, UselessCrap  {
      * REBALANCE TRIGGER
      */
     function rebalanceTrigger(uint256 userProvidedSeed) public returns (bytes32 requestId) {
+        require(_msgSender() == adminAddress, "Only Admin can do this!");
         require(LINK.balanceOf(address(this)) > fee, "Not enough LINK - fill contract with faucet");
         return requestRandomness(keyHash, fee, userProvidedSeed);
     }
@@ -139,10 +142,6 @@ contract UselessCrapExecutor is VRFConsumerBase, UselessCrap  {
             uint80 answeredInRound
         ) = priceFeed.latestRoundData();
         return (price);
-    }
-    
-    function getAddresses() public view returns (address[] memory) {
-        return (_lockedAddresses);
     }
 
     function getLockBalanceOf(address account) public view returns (uint256) {
