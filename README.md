@@ -1,5 +1,5 @@
 
-# UselessCrap Token (CRAP)
+# Useless Token (USEL)
 
 ERC20 Test token on Ethereum blockchain leverages chainlink (LINK) price oracle and the new chainlink VRF to get random verified numbers.
 
@@ -13,14 +13,14 @@ When rebalance mechanism activates:
 Kovan testnet contract => 0x44Be6b05F8011Dbb9CDe17acE93133939A82a9Fa
 # Usage
 
-1. Copy the UselessCrapToken.sol to [Remix](https://remix.ethereum.org/) on a new Project.
+1. Copy the UselessToken.sol to [Remix](https://remix.ethereum.org/) on a new Project.
 2. Change the compiler version to the correct one (0.6.xx)
 3. Install [Metamask](https://metamask.io/) if you dont have it.
 4. Create/Use an account on the Metamask and switch to Kovan testnet (some chainlink addresses are hardcoded so this only works on this testnet)
 5. Get some ETH from the [Kovan ETH faucet](https://faucet.kovan.network/)
 6. Get some LINK from the [Kovan LINK faucet](https://kovan.chain.link/)
 7. Add Custom Token to Metamask: 0xa36085F69e2889c224210F603D836748e7dC0088 (This is the LINK contract on Kovan testnet)
-8. Go to Remix and deploy the UselessCrapExecutor using Inject Web3 so it will connect with Metamask
+8. Go to Remix and deploy the UselessExecutor using Inject Web3 so it will connect with Metamask
 9. Now we have a deployed contract, and will appear on a Deployed Contracts tab on Remix.
 9.1 This is a ERC20 contract so it has the standard functionality of a ERC20 Token with some added functions
 9.2 When you deployed the contract it minted some coins for you
