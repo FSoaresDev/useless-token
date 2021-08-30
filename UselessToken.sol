@@ -6,7 +6,7 @@ import "https://github.com/smartcontractkit/chainlink/blob/master/evm-contracts/
 import "https://raw.githubusercontent.com/smartcontractkit/chainlink/master/evm-contracts/src/v0.6/VRFConsumerBase.sol";
 
 /*
-    UselessCrap Token (CRAP)
+    Useless Token (USEL)
 
     ERC20 Test token on Ethereum blockchain leverages chainlink (LINK) price oracle and the new chainlink VRF to get random verified numbers.
     
@@ -18,13 +18,13 @@ import "https://raw.githubusercontent.com/smartcontractkit/chainlink/master/evm-
         * If new price is less than the price at the previous rebalance: Burn random % of tokens on each account that have locked tokens.
 */
 
-contract UselessCrap is ERC20 {
-    constructor () public ERC20("UselessCrap", "CRAP") {
+contract Useless is ERC20 {
+    constructor () public ERC20("Useless", "USEL") {
         _mint(msg.sender, 1000000 * (10 ** uint256(decimals())));
     }
 }
 
-contract UselessCrapExecutor is VRFConsumerBase, UselessCrap  {
+contract UselessExecutor is VRFConsumerBase, Useless {
     address internal adminAddress;
     bytes32 internal keyHash;
     uint256 internal fee;
